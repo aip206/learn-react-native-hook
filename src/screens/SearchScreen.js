@@ -1,25 +1,13 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import SearchBar from '../components/SearchBar';
-import Service from '../services/SearchService';
+import useResult from '../hooks/useResult';
 const SearchScreen = () => {
     const [term, setTerm] = useState('');
-    const [result, setResult] = useState([]);
-    const [errorMessage, setErrorMessage] = useState('');
-
-    const response = async () => {
-        try {
-            const res = await Service.search(term)
-            setResult(res.data.businesses)
-        } catch (e) {
-            console.log(e);
-            setErrorMessage("Something went wrong")
-        }
-    }
-    // console.log(result)
+    const [response, result, errorMessage] = useResult();
     return (
         <View>
-            <SearchBar term={term} onFunc={(newTerm) => setTerm(newTerm)} onPrint={() => response()} />
+            <SearchBar term={term} onFunc={(newTerm) => setTerm(newTerm)} onPrint={() => response(term)} />
             {errorMessage ? <Text>{errorMessage}</Text> : null}
             <Text>{result.length}</Text>
         </View>
