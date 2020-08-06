@@ -10,6 +10,9 @@ const Service =
                 location: 'san jose'
             }
         })
+    },
+    getById: async (term) => {
+        return await Yelp.get(`/${term}`)
     }
 
 }
